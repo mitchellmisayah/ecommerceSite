@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -20,6 +21,14 @@ namespace WebApplication1.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Category obj)
+        {
+            this.db.Categories.Add(obj);
+            this.db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
