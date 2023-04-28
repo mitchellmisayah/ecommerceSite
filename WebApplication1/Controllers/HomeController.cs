@@ -8,10 +8,14 @@ namespace WebApplication1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        //constructor
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
+
+        //action method
 
         public IActionResult Index()
         {
