@@ -17,6 +17,9 @@ namespace WebApplication1.Controllers
             var objCategoryList = this.db.Categories.ToList(); //List<Category> objCategoryList = this.db.Categories.ToList();  they're the same
             return View(objCategoryList);
         }
+
+        //CRUD OPERATIONS ==============================
+
         //Create
         public IActionResult Create()
         {
@@ -35,6 +38,7 @@ namespace WebApplication1.Controllers
             {
                 this.db.Categories.Add(obj);
                 this.db.SaveChanges();
+                TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
 
@@ -72,6 +76,7 @@ namespace WebApplication1.Controllers
             {
                 this.db.Categories.Update(obj);
                 this.db.SaveChanges();
+                TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
 
@@ -112,6 +117,7 @@ namespace WebApplication1.Controllers
             }
             this.db.Categories.Remove(obj);
             this.db.SaveChanges();
+            TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
 
 
