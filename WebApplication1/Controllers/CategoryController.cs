@@ -77,5 +77,50 @@ namespace WebApplication1.Controllers
 
             return View();
         }
+
+        //Delete
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            Category? categoryFromDb = this.db.Categories.Find(id); //finds the primary key of Category and assigns it to categoryFromDb
+
+            //Other ways that work
+            //Category? categoryFromDb1 = this.db.Categories.FirstOrDefault(u=>u.Id == id);
+            //Category? categoryFromDb2 = this.db.Categories.Where(u=>u.Id == id).FirstOrDefault();
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(categoryFromDb);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeletePOST(int? id)
+        {
+            //find category from database
+
+            Category? obj = this.db.Categories.Find(id);
+            if(obj == null)
+            {
+                return NotFound();
+            }
+            this.db.Categories.Remove(obj);
+            this.db.SaveChanges();
+            return RedirectToAction("Index");
+
+
+
+        }
+
+
     }
+
+
+
 }
