@@ -26,9 +26,14 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            this.db.Categories.Add(obj);
-            this.db.SaveChanges();
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                this.db.Categories.Add(obj);
+                this.db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
     }
 }
