@@ -66,14 +66,11 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Edit(Category obj)
         {
-            if (obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("Name", "The DisplayOrder cannot exactly match the Name.");
-            }
+
 
             if (ModelState.IsValid)
             {
-                this.db.Categories.Add(obj);
+                this.db.Categories.Update(obj);
                 this.db.SaveChanges();
                 return RedirectToAction("Index");
             }
