@@ -14,7 +14,7 @@ namespace WebApplication1.Controllers
         }
         public IActionResult Index()
         {
-            var objCategoryList = this.db.Categories.ToList(); //List<Category> objCategoryList = this.db.Categories.ToList();  they're the same
+            var objCategoryList = this.db.Categories.ToList(); //List<Category> objCategoryList = this.db.Categories.ToList();  they're the same //test
             return View(objCategoryList);
         }
 
