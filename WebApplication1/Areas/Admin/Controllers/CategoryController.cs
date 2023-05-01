@@ -3,16 +3,18 @@ using WebApplication1.Data;
 using WebApplication1.Data.Repository.IRepository;
 using WebApplication1.Models;
 
-namespace WebApplication1.Controllers
+namespace WebApplication1.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
         
+        private readonly IUnitOfWork _unitOfWork;
+
 
         public CategoryController(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
@@ -51,12 +53,12 @@ namespace WebApplication1.Controllers
 
         public IActionResult Edit(int? id)
         {
-            if(id == null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
-            
-            Category? categoryFromDb = _unitOfWork.Category.Get(u=>u.Id==id); //finds the primary key of Category and assigns it to categoryFromDb
+
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id); //finds the primary key of Category and assigns it to categoryFromDb
 
             //Other ways that work
             //Category? categoryFromDb1 = this.db.Categories.FirstOrDefault(u=>u.Id == id);
