@@ -7,16 +7,16 @@ namespace WebApplication1.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository categoryRepo;
+        private readonly IUnitOfWork _unitOfWork;
         
 
-        public CategoryController(ICategoryRepository db)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            this.categoryRepo = db;
+            this._unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            var objCategoryList = this.categoryRepo.GetAll().ToList(); //List<Category> objCategoryList = this.db.Categories.ToList();  they're the same //test
+            var objCategoryList = _unitOfWork.Category.GetAll().ToList(); //List<Category> objCategoryList = this.db.Categories.ToList();  they're the same //test
             return View(objCategoryList);
         }
 
@@ -38,8 +38,8 @@ namespace WebApplication1.Controllers
 
             if (ModelState.IsValid)
             {
-                this.categoryRepo.Add(obj);
-                this.categoryRepo.Save();
+                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
@@ -56,7 +56,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
             
-            Category? categoryFromDb = this.categoryRepo.Get(u=>u.Id==id); //finds the primary key of Category and assigns it to categoryFromDb
+            Category? categoryFromDb = _unitOfWork.Category.Get(u=>u.Id==id); //finds the primary key of Category and assigns it to categoryFromDb
 
             //Other ways that work
             //Category? categoryFromDb1 = this.db.Categories.FirstOrDefault(u=>u.Id == id);
@@ -76,8 +76,8 @@ namespace WebApplication1.Controllers
 
             if (ModelState.IsValid)
             {
-                this.categoryRepo.Update(obj);
-                this.categoryRepo.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Category updated successfully";
                 return RedirectToAction("Index");
             }
@@ -94,7 +94,7 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            Category? categoryFromDb = this.categoryRepo.Get(u => u.Id == id); //finds the primary key of Category and assigns it to categoryFromDb
+            Category? categoryFromDb = _unitOfWork.Category.Get(u => u.Id == id); //finds the primary key of Category and assigns it to categoryFromDb
 
             //Other ways that work
             //Category? categoryFromDb1 = this.db.Categories.FirstOrDefault(u=>u.Id == id);
@@ -112,13 +112,13 @@ namespace WebApplication1.Controllers
         {
             //find category from database
 
-            Category? obj = this.categoryRepo.Get(u => u.Id == id);
+            Category? obj = _unitOfWork.Category.Get(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
-            this.categoryRepo.Remove(obj);
-            this.categoryRepo.Save();
+            _unitOfWork.Category.Remove(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
 

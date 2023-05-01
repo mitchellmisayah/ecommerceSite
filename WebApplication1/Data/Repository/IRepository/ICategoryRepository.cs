@@ -6,6 +6,6 @@ namespace WebApplication1.Data.Repository.IRepository
     {
 
         void Update(Category obj);
-        void Save();
+
     }
 }
