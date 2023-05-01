@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
+
 using WebApplication1.Data.Repository;
 using WebApplication1.Data.Repository.IRepository;
+using WebApplication1.DataAccess.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

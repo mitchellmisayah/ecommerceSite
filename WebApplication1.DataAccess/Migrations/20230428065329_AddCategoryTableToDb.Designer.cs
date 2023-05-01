@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
+using WebApplication1.DataAccess.Data;
 
 #nullable disable
 
-namespace WebApplication1.Migrations
+namespace WebApplication1.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230428065329_AddCategoryTableToDb")]

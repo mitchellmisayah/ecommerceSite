@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using WebApplication1.Data.Repository.IRepository;
+using WebApplication1.DataAccess.Data;
 using WebApplication1.Models;
 
 namespace WebApplication1.Data.Repository

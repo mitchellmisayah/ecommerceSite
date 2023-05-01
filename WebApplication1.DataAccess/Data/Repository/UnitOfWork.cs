@@ -1,4 +1,5 @@
 ﻿using WebApplication1.Data.Repository.IRepository;
+using WebApplication1.DataAccess.Data;
 
 namespace WebApplication1.Data.Repository
 {

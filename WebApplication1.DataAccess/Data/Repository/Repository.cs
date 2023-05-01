@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApplication1.DataAccess.Data;
 
 namespace WebApplication1.Data.Repository.IRepository
 
@@ -7,6 +8,7 @@ namespace WebApplication1.Data.Repository.IRepository
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
+        private ApplicationDbContext db;
 
         public Repository(ApplicationDbContext db)
         {
@@ -14,8 +16,8 @@ namespace WebApplication1.Data.Repository.IRepository
             this.dbSet = _db.Set<T>();
         }
 
- 
-        
+
+
         public void Add(T entity)
         {
             dbSet.Add(entity);  
