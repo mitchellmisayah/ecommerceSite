@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using WebApplication1.Data;
 using WebApplication1.Data.Repository.IRepository;
 using WebApplication1.Models;
@@ -19,6 +21,11 @@ namespace WebApplication1.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var objProductList = _unitOfWork.Product.GetAll().ToList(); //List<Product> objProductList = this.db.Categories.ToList();  they're the same //test
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString(),
+            });
             return View(objProductList);
         }
 
