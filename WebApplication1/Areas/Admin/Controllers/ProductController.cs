@@ -21,11 +21,7 @@ namespace WebApplication1.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var objProductList = _unitOfWork.Product.GetAll().ToList(); //List<Product> objProductList = this.db.Categories.ToList();  they're the same //test
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
-            {
-                Text = u.Name,
-                Value = u.Id.ToString(),
-            });
+
             return View(objProductList);
         }
 
@@ -34,6 +30,13 @@ namespace WebApplication1.Areas.Admin.Controllers
         //Create
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+            {
+                Text = u.Name,
+                Value = u.Id.ToString(),
+            });
+
+            ViewBag.CategoryList = CategoryList;
             return View();
         }
 
