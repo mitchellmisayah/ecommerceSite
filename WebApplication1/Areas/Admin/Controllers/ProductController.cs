@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using WebApplication1.Data;
 using WebApplication1.Data.Repository.IRepository;
 using WebApplication1.Models;
+using WebApplication1.Models.ViewModels;
 
 namespace WebApplication1.Areas.Admin.Controllers
 {
@@ -30,30 +31,45 @@ namespace WebApplication1.Areas.Admin.Controllers
         //Create
         public IActionResult Create()
         {
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
-            {
-                Text = u.Name,
-                Value = u.Id.ToString(),
-            });
+            
 
-            ViewBag.CategoryList = CategoryList;
-            return View();
+            //ViewBag.CategoryList = CategoryList;
+            //ViewData["CategoryList"] = CategoryList;
+            ProductVM productVM = new()
+            {
+                CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                }),
+                Product = new Product()
+            };
+            return View(productVM);
         }
 
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Create(ProductVM productVM)
         {
 
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(obj);
+                _unitOfWork.Product.Add(productVM.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
             }
 
-            return View();
+            else
+            {
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+                });
+                return View(productVM);
+            }
+            //return View(productVM);
         }
 
         //Edit
