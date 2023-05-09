@@ -29,7 +29,8 @@ namespace WebApplication1.Areas.Admin.Controllers
         //CRUD OPERATIONS ==============================
 
         //Create
-        public IActionResult Create()
+        //Update , insert
+        public IActionResult Upsert(int? id)
         {
             
 
@@ -44,11 +45,22 @@ namespace WebApplication1.Areas.Admin.Controllers
                 }),
                 Product = new Product()
             };
-            return View(productVM);
+            if(id == null || id == 0)
+            {
+                //create
+                return View(productVM);
+            }
+            else
+            {
+                //update
+                productVM.Product = _unitOfWork.Product.Get(u=>u.Id == id);
+                return View(productVM);
+            }
+
         }
 
         [HttpPost]
-        public IActionResult Create(ProductVM productVM)
+        public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
 
 
@@ -72,43 +84,43 @@ namespace WebApplication1.Areas.Admin.Controllers
             //return View(productVM);
         }
 
-        //Edit
+        ////Edit
 
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
+        //public IActionResult Edit(int? id)
+        //{
+        //    if (id == null || id == 0)
+        //    {
+        //        return NotFound();
+        //    }
 
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id); //finds the primary key of Product and assigns it to productFromDb
+        //    Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id); //finds the primary key of Product and assigns it to productFromDb
 
-            //Other ways that work
-            //Product? productFromDb1 = this.db.Categories.FirstOrDefault(u=>u.Id == id);
-            //Product? productFromDb2 = this.db.Categories.Where(u=>u.Id == id).FirstOrDefault();
+        //    //Other ways that work
+        //    //Product? productFromDb1 = this.db.Categories.FirstOrDefault(u=>u.Id == id);
+        //    //Product? productFromDb2 = this.db.Categories.Where(u=>u.Id == id).FirstOrDefault();
 
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(productFromDb);
-        }
+        //    if (productFromDb == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(productFromDb);
+        //}
 
-        [HttpPost]
-        public IActionResult Edit(Product obj)
-        {
+        //[HttpPost]
+        //public IActionResult Edit(Product obj)
+        //{
 
 
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Product updated successfully";
-                return RedirectToAction("Index");
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        _unitOfWork.Product.Update(obj);
+        //        _unitOfWork.Save();
+        //        TempData["success"] = "Product updated successfully";
+        //        return RedirectToAction("Index");
+        //    }
 
-            return View();
-        }
+        //    return View();
+        //}
 
         //Delete
 
