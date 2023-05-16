@@ -69,35 +69,25 @@ namespace WebApplication1.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if(file!= null)
+
+                if (file != null)
                 {
-                    string fileName = Guid.NewGuid().ToString()+ Path.GetExtension(file.FileName);
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
-
-                    //if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
-                    //{
-                    //    //delete old image
-                    //    var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
-
-                    //    if(System.IO.File.Exists(oldImagePath))
-                    //    {
-                    //        System.IO.File.Delete(oldImagePath);
-                    //    }
-                    //}
 
                     if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
                     {
-                        //delete the old image
-                        var oldImagePath =
-                            Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+                        var oldImagePath = 
+                            Path.Combine(wwwRootPath,productVM.Product.ImageUrl.TrimStart('\\'));
 
-                        if (System.IO.File.Exists(oldImagePath))
+                        if(System.IO.File.Exists(oldImagePath))
                         {
                             System.IO.File.Delete(oldImagePath);
                         }
                     }
 
-                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName),FileMode.Create))
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
@@ -105,7 +95,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                     productVM.Product.ImageUrl = @"\images\product\" + fileName;
                 }
 
-                if (productVM.Product.Id == 0)
+                if(productVM.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(productVM.Product);
                 }
@@ -113,6 +103,7 @@ namespace WebApplication1.Areas.Admin.Controllers
                 {
                     _unitOfWork.Product.Update(productVM.Product);
                 }
+
                 
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
@@ -131,45 +122,6 @@ namespace WebApplication1.Areas.Admin.Controllers
             //return View(productVM);
         }
 
-        ////Edit
-
-        //public IActionResult Edit(int? id)
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id); //finds the primary key of Product and assigns it to productFromDb
-
-        //    //Other ways that work
-        //    //Product? productFromDb1 = this.db.Categories.FirstOrDefault(u=>u.Id == id);
-        //    //Product? productFromDb2 = this.db.Categories.Where(u=>u.Id == id).FirstOrDefault();
-
-        //    if (productFromDb == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(productFromDb);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Edit(Product obj)
-        //{
-
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        _unitOfWork.Product.Update(obj);
-        //        _unitOfWork.Save();
-        //        TempData["success"] = "Product updated successfully";
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View();
-        //}
-
-        //Delete
 
         public IActionResult Delete(int? id)
         {
