@@ -14,9 +14,10 @@
 
         </div>
         <div class="mb-3 row p-1">
+            <label asp-for="Product.Description" class="p-0" ></label>
             <textarea asp-for="Product.Description" class="p-0"></textarea>
-            <label asp-for="Product.Description" class="ms-2" />
-            <span asp-validation-for="Product.Description" class=" text-danger"></span>
+            
+
         </div>
 
         <div class="mb-3 row p-1">
@@ -87,6 +88,14 @@
 </form>
 
 @section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image lists table visualblocks wordcount ',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | emoticons charmap ',
+
+        });
+    </script>
     @{
     <partial name="_ValidationScriptsPartial"/>
     }
